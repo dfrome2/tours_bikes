@@ -1,5 +1,6 @@
 """
 Streamlit application for bike count prediction in Tours, France.
+Made by Denis Froment, Value Discovery SASU.
 
 Multi-page app with:
 - Documentation page (README with images)
@@ -18,7 +19,7 @@ import re
 
 # Page configuration
 st.set_page_config(
-    page_title="Tours Bike Predictor",
+    page_title="Tours bike predictor",
     page_icon="🚴",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -45,7 +46,7 @@ st.markdown(
 TRANSLATIONS = {
     "fr": {
         # Pages
-        "page_doc": "Documentation",
+        "page_doc": "Info projet",
         "page_pred": "Prédiction",
         "language": "Langue",
         "title": "Tours Bike Predictor",
@@ -64,29 +65,29 @@ TRANSLATIONS = {
         
         # Temperature fields
         "temp_min": "Température minimale",
-        "temp_min_desc": "Température minimale attendue pour la journée (-40 à 50°C)",
+        "temp_min_desc": "Température mini attendue pour la journée (°C)",
         "temp_max": "Température maximale",
-        "temp_max_desc": "Température maximale attendue pour la journée (-40 à 50°C)",
+        "temp_max_desc": "Température maxi attendue pour la journée (°C)",
         
         # Precipitation & Wind fields
         "precip": "Précipitation totale",
-        "precip_desc": "Quantité totale d'eau tombée (0 à 0.5m)",
-        "wind_gust": "Rafales de vent max",
-        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 à 50 m/s)",
+        "precip_desc": "Quantité totale d'eau tombée en journée (en m ! exemple 0.001 pour 1 mm)",
+        "wind_gust": "Rafales de vent",
+        "wind_gust_desc": "Vitesse maxi des rafales de vent (en m/s)",
         
         # Snowfall & Snow depth fields
-        "snow_fall": "Chutes de neige max",
-        "snow_fall_desc": "Quantité maximale de neige tombée (0 à 5m)",
+        "snow_fall": "Chutes de neige totale",
+        "snow_fall_desc": "Quantité de neige attendue (m)",
         "snow_depth": "Profondeur de neige",
-        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 à 5m)",
+        "snow_depth_desc": "Couche max de neige tenant au sol (m)",
         
         # Day type fields
         "weekend": "Weekend",
-        "weekend_desc": "C'est un jour de weekend (samedi ou dimanche)",
+        "weekend_desc": "Jour de weekend (samedi ou dimanche)",
         "holiday": "Jour férié",
-        "holiday_desc": "C'est un jour férié officiel",
+        "holiday_desc": "Jour férié officiel national",
         "vacation": "Vacances scolaires",
-        "vacation_desc": "C'est une période de vacances scolaires",
+        "vacation_desc": "Période de vacances scolaires de l'académie",
         
         # Buttons and messages
         "predict_btn": "Prédire",
@@ -113,14 +114,14 @@ TRANSLATIONS = {
         "no": "Non",
         
         # Footer
-        "footer": "Construit avec Streamlit | Tours Bike Counting | Données: Copernicus et Syndicat des Mobilités",
+        "footer": "Denis Froment | contact@valuediscovery.fr | Données: Copernicus et Syndicat des Mobilités de Tours",
         
         # Readme status
         "readme_error": "Erreur lors du chargement du README",
     },
     "en": {
         # Pages
-        "page_doc": "Documentation",
+        "page_doc": "Project info",
         "page_pred": "Prediction",
         "language": "Language",
         "title": "Tours Bike Predictor",
@@ -139,25 +140,25 @@ TRANSLATIONS = {
         
         # Temperature fields
         "temp_min": "Minimum temperature",
-        "temp_min_desc": "Minimum temperature expected for the day (-40 to 50°C)",
+        "temp_min_desc": "Minimum temperature expected for the day (°C)",
         "temp_max": "Maximum temperature",
-        "temp_max_desc": "Maximum temperature expected for the day (-40 to 50°C)",
+        "temp_max_desc": "Maximum temperature expected for the day (°C)",
         
         # Precipitation & Wind fields
         "precip": "Total precipitation",
-        "precip_desc": "Total amount of water fallen (0 to 0.5m)",
+        "precip_desc": "Amount of water expected to fall (m)",
         "wind_gust": "Max wind gusts",
-        "wind_gust_desc": "Maximum wind gust speed (0 to 50 m/s)",
+        "wind_gust_desc": "Maximum wind gust speed (m/s)",
         
         # Snowfall & Snow depth fields
         "snow_fall": "Max snowfall",
-        "snow_fall_desc": "Maximum amount of snow fallen (0 to 5m)",
+        "snow_fall_desc": "Maximum amount of snow fallen (m)",
         "snow_depth": "Snow depth",
-        "snow_depth_desc": "Average height of snow on ground (0 to 5m)",
+        "snow_depth_desc": "Max height of snow on ground (m)",
         
         # Day type fields
         "weekend": "Weekend",
-        "weekend_desc": "Is it a weekend day (Saturday or Sunday)",
+        "weekend_desc": "you predict for a saturday or sunday",
         "holiday": "Holiday",
         "holiday_desc": "Is it a public holiday",
         "vacation": "School vacation",
