@@ -1,4 +1,5 @@
-# Passages de vélos à Tours : Visualisations Power BI & prédictions data science
+# Passages de vélos à Tours
+## Visualisations Power BI & prédictions data science
 
 [![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=for-the-badge&logo=Power%20BI&logoColor=black)]
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)]
