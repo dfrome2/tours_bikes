@@ -1,14 +1,10 @@
 """
 Streamlit application for bike count prediction in Tours, France.
 
-This app allows users to predict the number of bikes counted based on weather
-and temporal features using a pre-trained RandomForest model.
-
-Features:
+Multi-page app with:
+- Documentation page (README with images)
+- Prediction page (single and batch predictions)
 - Bilingual interface (French/English)
-- Single and batch predictions
-- Home page with project documentation
-- Detailed field descriptions
 
 Run with: streamlit run streamlit_app.py
 """
@@ -18,6 +14,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from predictor import BikeCountPredictor
+import re
 
 # Page configuration
 st.set_page_config(
@@ -31,11 +28,12 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .metric-container {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 10px 0;
+    .main {
+        padding-top: 0rem;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
     }
     </style>
     """,
@@ -46,16 +44,17 @@ st.markdown(
 
 TRANSLATIONS = {
     "fr": {
-        # Navigation
-        "title": "🚴 Prédicteur de Comptage de Vélos",
-        "subtitle": "Prédisez la fréquentation des pistes cyclables de Tours",
+        # Pages
+        "page_doc": "📖 Documentation",
+        "page_pred": "🔮 Prédiction",
         "language": "🌐 Langue",
-        "home": "🏠 Accueil",
+        "title": "Tours Bike Predictor",
+        
+        # Prediction page
+        "pred_title": "Prédiction de Comptage de Vélos",
+        "pred_subtitle": "Prédisez la fréquentation des pistes cyclables de Tours",
         "single_pred": "📊 Prédiction Unique",
         "batch_pred": "📈 Prédictions en Batch",
-        
-        # Home tab
-        "about_title": "À Propos du Projet",
         
         # Sections
         "temp_section": "🌡️ Température (°C)",
@@ -65,26 +64,21 @@ TRANSLATIONS = {
         
         # Temperature fields
         "temp_min": "Température Minimale",
-        "temp_min_desc": "Température minimale attendue pour la journée",
+        "temp_min_desc": "Température minimale attendue pour la journée (-40 à 50°C)",
         "temp_max": "Température Maximale",
-        "temp_max_desc": "Température maximale attendue pour la journée",
-        "temp_hint": "Plage: -40 à 50°C",
+        "temp_max_desc": "Température maximale attendue pour la journée (-40 à 50°C)",
         
         # Precipitation fields
         "precip": "Précipitations Totales",
-        "precip_desc": "Quantité totale d'eau tombée",
-        "precip_hint": "En mètres (0 à 0.5m)",
+        "precip_desc": "Quantité totale d'eau tombée (0 à 0.5m)",
         "snow_depth": "Profondeur de Neige",
-        "snow_depth_desc": "Hauteur moyenne de neige sur le sol",
-        "snow_depth_hint": "En mètres (0 à 5m)",
+        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 à 5m)",
         
         # Wind fields
         "wind_gust": "Rafales de Vent Max",
-        "wind_gust_desc": "Vitesse maximale des rafales de vent",
-        "wind_gust_hint": "En m/s (0 à 50)",
+        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 à 50 m/s)",
         "snow_fall": "Chutes de Neige Max",
-        "snow_fall_desc": "Quantité maximale de neige tombée",
-        "snow_fall_hint": "En mètres (0 à 5m)",
+        "snow_fall_desc": "Quantité maximale de neige tombée (0 à 5m)",
         
         # Day type fields
         "weekend": "🏖️ Weekend",
@@ -104,10 +98,10 @@ TRANSLATIONS = {
         # Batch prediction
         "batch_title": "Prédictions par Lots",
         "csv_upload": "Téléchargez un fichier CSV",
-        "csv_help": "Le CSV doit contenir les colonnes: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
+        "csv_help": "Le CSV doit contenir: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
         "loaded_rows": "📊 Lignes chargées",
         "missing_columns": "❌ Colonnes manquantes:",
-        "csv_error": "❌ Erreur lors de la lecture du fichier:",
+        "csv_error": "❌ Erreur lors de la lecture:",
         "download_btn": "📥 Télécharger les prédictions (CSV)",
         
         # Display helpers
@@ -119,19 +113,20 @@ TRANSLATIONS = {
         "no": "✗ Non",
         
         # Footer
-        "footer": "🔧 Construit avec Streamlit | 🚴 Projet Tours Bike Counting | Données: Copernicus & Syndicat des Mobilités",
+        "footer": "🔧 Construit avec Streamlit | 🚴 Tours Bike Counting | Données: Copernicus & Syndicat des Mobilités",
     },
     "en": {
-        # Navigation
-        "title": "🚴 Tours Bike Count Predictor",
-        "subtitle": "Predict bike traffic on Tours cycling lanes",
+        # Pages
+        "page_doc": "📖 Documentation",
+        "page_pred": "🔮 Prediction",
         "language": "🌐 Language",
-        "home": "🏠 Home",
+        "title": "Tours Bike Predictor",
+        
+        # Prediction page
+        "pred_title": "Bike Count Prediction",
+        "pred_subtitle": "Predict bike traffic on Tours cycling lanes",
         "single_pred": "📊 Single Prediction",
         "batch_pred": "📈 Batch Predictions",
-        
-        # Home tab
-        "about_title": "About The Project",
         
         # Sections
         "temp_section": "🌡️ Temperature (°C)",
@@ -141,26 +136,21 @@ TRANSLATIONS = {
         
         # Temperature fields
         "temp_min": "Minimum Temperature",
-        "temp_min_desc": "Minimum temperature expected for the day",
+        "temp_min_desc": "Minimum temperature expected for the day (-40 to 50°C)",
         "temp_max": "Maximum Temperature",
-        "temp_max_desc": "Maximum temperature expected for the day",
-        "temp_hint": "Range: -40 to 50°C",
+        "temp_max_desc": "Maximum temperature expected for the day (-40 to 50°C)",
         
         # Precipitation fields
         "precip": "Total Precipitation",
-        "precip_desc": "Total amount of water fallen",
-        "precip_hint": "In meters (0 to 0.5m)",
+        "precip_desc": "Total amount of water fallen (0 to 0.5m)",
         "snow_depth": "Snow Depth",
-        "snow_depth_desc": "Average height of snow on ground",
-        "snow_depth_hint": "In meters (0 to 5m)",
+        "snow_depth_desc": "Average height of snow on ground (0 to 5m)",
         
         # Wind fields
         "wind_gust": "Max Wind Gusts",
-        "wind_gust_desc": "Maximum wind gust speed",
-        "wind_gust_hint": "In m/s (0 to 50)",
+        "wind_gust_desc": "Maximum wind gust speed (0 to 50 m/s)",
         "snow_fall": "Max Snowfall",
-        "snow_fall_desc": "Maximum amount of snow fallen",
-        "snow_fall_hint": "In meters (0 to 5m)",
+        "snow_fall_desc": "Maximum amount of snow fallen (0 to 5m)",
         
         # Day type fields
         "weekend": "🏖️ Weekend",
@@ -180,7 +170,7 @@ TRANSLATIONS = {
         # Batch prediction
         "batch_title": "Batch Predictions",
         "csv_upload": "Upload a CSV file",
-        "csv_help": "CSV must contain columns: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
+        "csv_help": "CSV must contain: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
         "loaded_rows": "📊 Rows loaded",
         "missing_columns": "❌ Missing columns:",
         "csv_error": "❌ Error reading file:",
@@ -195,7 +185,7 @@ TRANSLATIONS = {
         "no": "✗ No",
         
         # Footer
-        "footer": "🔧 Built with Streamlit | 🚴 Tours Bike Counting Project | Data: Copernicus & Syndicat des Mobilités",
+        "footer": "🔧 Built with Streamlit | 🚴 Tours Bike Counting | Data: Copernicus & Syndicat des Mobilités",
     },
 }
 
@@ -209,15 +199,27 @@ def load_predictor():
 
 @st.cache_data
 def load_readme():
-    """Load the README content from doc folder."""
+    """Load and process README content."""
     readme_path = Path(__file__).parent.parent / "doc" / "README.md"
     if readme_path.exists():
         try:
             with open(readme_path, "r", encoding="utf-8") as f:
-                return f.read()
+                content = f.read()
+            return content
         except Exception as e:
             return f"Error loading README: {str(e)}"
     return None
+
+
+def process_markdown_images(content):
+    """Replace markdown image paths to work with doc/captures folder."""
+    # Replace ![...](captures/...) with ![...](...doc/captures/...)
+    content = re.sub(
+        r'!\[(.*?)\]\(captures/(.*?)\)',
+        lambda m: f'![{m.group(1)}](../doc/captures/{m.group(2)})',
+        content
+    )
+    return content
 
 
 def get_text(key, lang):
@@ -227,46 +229,30 @@ def get_text(key, lang):
     return TRANSLATIONS[lang].get(key, key)
 
 
-def main():
-    """Main application."""
-    
-    # Initialize session state for language
-    if "lang" not in st.session_state:
-        st.session_state.lang = "fr"
-
-    # Sidebar for language selection with flag buttons
-    with st.sidebar:
-        st.markdown("---")
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("🇫🇷 Français", use_container_width=True):
-                st.session_state.lang = "fr"
-        with col2:
-            if st.button("🇬🇧 English", use_container_width=True):
-                st.session_state.lang = "en"
-        st.markdown("---")
-
-    lang = st.session_state.lang
+def page_documentation(lang):
+    """Documentation page with README and images."""
     t = lambda key: get_text(key, lang)
+    
+    readme_content = load_readme()
+    if readme_content:
+        # Process image paths
+        readme_content = process_markdown_images(readme_content)
+        st.markdown(readme_content)
+    else:
+        st.warning("README not found")
 
-    # Main header
-    st.title(t("title"))
-    st.markdown(t("subtitle"))
 
-    # Create tabs for different sections
-    tab_home, tab_single, tab_batch = st.tabs([t("home"), t("single_pred"), t("batch_pred")])
-
-    # ==================== HOME TAB ====================
-    with tab_home:
-        st.subheader(t("about_title"))
-        
-        readme_content = load_readme()
-        if readme_content:
-            st.markdown(readme_content)
-        else:
-            st.warning("README content not found")
-
-    # ==================== SINGLE PREDICTION TAB ====================
+def page_prediction(lang):
+    """Prediction page with single and batch predictions."""
+    t = lambda key: get_text(key, lang)
+    
+    st.title(f"🚴 {t('pred_title')}")
+    st.markdown(t("pred_subtitle"))
+    
+    # Create tabs for single and batch
+    tab_single, tab_batch = st.tabs([t("single_pred"), t("batch_pred")])
+    
+    # ==================== SINGLE PREDICTION ====================
     with tab_single:
         st.subheader("📊 " + t("single_pred"))
 
@@ -277,7 +263,6 @@ def main():
         with col1:
             st.markdown(f"**{t('temp_min')}**")
             st.caption(t('temp_min_desc'))
-            st.caption(f"*{t('temp_hint')}*")
             t2m_min = st.number_input(
                 t("temp_min"),
                 value=-5.0,
@@ -290,7 +275,6 @@ def main():
         with col2:
             st.markdown(f"**{t('temp_max')}**")
             st.caption(t('temp_max_desc'))
-            st.caption(f"*{t('temp_hint')}*")
             t2m_max = st.number_input(
                 t("temp_max"),
                 value=10.0,
@@ -309,7 +293,6 @@ def main():
         with col1:
             st.markdown(f"**{t('precip')}**")
             st.caption(t('precip_desc'))
-            st.caption(f"*{t('precip_hint')}*")
             tp_total = st.number_input(
                 t("precip"),
                 value=0.001,
@@ -322,7 +305,6 @@ def main():
         with col2:
             st.markdown(f"**{t('snow_depth')}**")
             st.caption(t('snow_depth_desc'))
-            st.caption(f"*{t('snow_depth_hint')}*")
             sd_total = st.number_input(
                 t("snow_depth"),
                 value=0.0,
@@ -341,7 +323,6 @@ def main():
         with col1:
             st.markdown(f"**{t('wind_gust')}**")
             st.caption(t('wind_gust_desc'))
-            st.caption(f"*{t('wind_gust_hint')}*")
             i10fg_max = st.number_input(
                 t("wind_gust"),
                 value=5.0,
@@ -354,7 +335,6 @@ def main():
         with col2:
             st.markdown(f"**{t('snow_fall')}**")
             st.caption(t('snow_fall_desc'))
-            st.caption(f"*{t('snow_fall_hint')}*")
             sf_max = st.number_input(
                 t("snow_fall"),
                 value=0.0,
@@ -373,22 +353,37 @@ def main():
         with col1:
             st.markdown(f"**{t('weekend')}**")
             st.caption(t('weekend_desc'))
-            is_weekend = st.checkbox(t("weekend"), value=False, label_visibility="collapsed")
+            is_weekend = st.checkbox(
+                t("weekend"),
+                value=False,
+                label_visibility="collapsed",
+                key="weekend_check"
+            )
         
         with col2:
             st.markdown(f"**{t('holiday')}**")
             st.caption(t('holiday_desc'))
-            is_holiday = st.checkbox(t("holiday"), value=False, label_visibility="collapsed")
+            is_holiday = st.checkbox(
+                t("holiday"),
+                value=False,
+                label_visibility="collapsed",
+                key="holiday_check"
+            )
         
         with col3:
             st.markdown(f"**{t('vacation')}**")
             st.caption(t('vacation_desc'))
-            is_school_vacation = st.checkbox(t("vacation"), value=False, label_visibility="collapsed")
+            is_school_vacation = st.checkbox(
+                t("vacation"),
+                value=False,
+                label_visibility="collapsed",
+                key="vacation_check"
+            )
 
         st.divider()
 
         # Predict button
-        if st.button(t("predict_btn"), use_container_width=True, type="primary", key="single_pred"):
+        if st.button(t("predict_btn"), use_container_width=True, type="primary", key="single_pred_btn"):
             try:
                 predictor = load_predictor()
                 prediction = predictor.predict(
@@ -403,7 +398,6 @@ def main():
                     is_school_vacation=int(is_school_vacation),
                 )
 
-                # Display result
                 st.success(t("success"))
                 
                 col1, col2 = st.columns(2)
@@ -411,7 +405,6 @@ def main():
                     st.metric(
                         label=t("predicted"),
                         value=f"{prediction:,}",
-                        delta=None,
                     )
 
                 with col2:
@@ -440,7 +433,7 @@ def main():
             except Exception as e:
                 st.error(f"{t('error')} {str(e)}")
 
-    # ==================== BATCH PREDICTION TAB ====================
+    # ==================== BATCH PREDICTION ====================
     with tab_batch:
         st.subheader("📈 " + t("batch_title"))
 
@@ -457,7 +450,6 @@ def main():
                 st.info(f"{t('loaded_rows')}: {len(df)}")
                 st.dataframe(df.head(), use_container_width=True)
 
-                # Check required columns
                 required_cols = [
                     "t2m_min",
                     "t2m_max",
@@ -474,12 +466,10 @@ def main():
                 if missing_cols:
                     st.error(f"{t('missing_columns')} {', '.join(missing_cols)}")
                 else:
-                    if st.button(t("predict_btn"), use_container_width=True, type="primary", key="batch_pred"):
+                    if st.button(t("predict_btn"), use_container_width=True, type="primary", key="batch_pred_btn"):
                         try:
                             predictor = load_predictor()
                             predictions = predictor.predict_batch(df[required_cols])
-
-                            # Add predictions to dataframe
                             df["predicted_bikes"] = predictions
 
                             st.success(t("success"))
@@ -488,7 +478,6 @@ def main():
                                 use_container_width=True,
                             )
 
-                            # Download button
                             csv = df.to_csv(index=False)
                             st.download_button(
                                 label=t("download_btn"),
@@ -504,9 +493,63 @@ def main():
             except Exception as e:
                 st.error(f"{t('csv_error')} {str(e)}")
 
-    # Footer
-    st.markdown("---")
-    st.markdown(t("footer"))
+
+def main():
+    """Main application with page navigation."""
+    
+    # Initialize session state
+    if "lang" not in st.session_state:
+        st.session_state.lang = "fr"
+    if "page" not in st.session_state:
+        st.session_state.page = "doc"
+
+    # ==================== SIDEBAR NAVIGATION ====================
+    with st.sidebar:
+        st.title(f"🚴 {get_text('title', st.session_state.lang)}")
+        st.markdown("---")
+        
+        # Language selection with flags
+        st.markdown("**" + get_text("language", st.session_state.lang) + "**")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🇫🇷 Français", use_container_width=True, key="lang_fr"):
+                st.session_state.lang = "fr"
+        with col2:
+            if st.button("🇬🇧 English", use_container_width=True, key="lang_en"):
+                st.session_state.lang = "en"
+        
+        st.markdown("---")
+        
+        # Page navigation
+        st.markdown("**📑 Pages**")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button(
+                get_text("page_doc", st.session_state.lang),
+                use_container_width=True,
+                type="secondary" if st.session_state.page == "doc" else "primary",
+                key="btn_doc"
+            ):
+                st.session_state.page = "doc"
+        
+        with col2:
+            if st.button(
+                get_text("page_pred", st.session_state.lang),
+                use_container_width=True,
+                type="secondary" if st.session_state.page == "pred" else "primary",
+                key="btn_pred"
+            ):
+                st.session_state.page = "pred"
+        
+        st.markdown("---")
+        st.caption(get_text("footer", st.session_state.lang))
+
+    # ==================== MAIN CONTENT ====================
+    if st.session_state.page == "doc":
+        page_documentation(st.session_state.lang)
+    else:
+        page_prediction(st.session_state.lang)
 
 
 if __name__ == "__main__":
