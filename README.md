@@ -1,5 +1,4 @@
-# tours_bikes
-How many bikes are going to ride tomorrow in Tours ? A data science project, with Power BI visualisations
+# How many bikes are going to ride tomorrow in Tours ?
 
 # Analyse des passages de vélos à Tours : Visualisations Power BI & prédictions data science
 
