@@ -115,7 +115,7 @@ TRANSLATIONS = {
         "no": "Non",
         
         # Footer
-        "footer": "Denis Froment | contact@valuediscovery.fr | Données: Copernicus et Syndicat des Mobilités de Tours",
+        "footer": "Denis Froment | contact@valuediscovery.fr | Données: Copernicus et Open Data Tours Metropole",
         
         # Readme status
         "readme_error": "Erreur lors du chargement du README",
@@ -190,7 +190,7 @@ TRANSLATIONS = {
         "no": "No",
         
         # Footer
-        "footer": "Built with Streamlit | Tours Bike Counting | Data: Copernicus & Syndicat des Mobilites",
+        "footer": "Built with Streamlit | Tours Bike Counting | Data: Copernicus & Open Data Tours Metropole",
         
         # Readme status
         "readme_error": "Error loading README",
@@ -228,11 +228,12 @@ def load_readme(lang):
 
 
 def process_markdown_images(content):
-    """Replace markdown image paths to work with doc/captures folder."""
-    # Replace ![...](captures/...) with ![...](...doc/captures/...)
+    """Replace markdown image paths to work with local captures folder."""
+    # Replace ![...](captures/...) with proper local path for Streamlit
+    # This keeps the relative path but makes it work with Streamlit's static file serving
     content = re.sub(
-        r'!\[(.*?)\]\(captures/(.*?)\)',
-        lambda m: f'![{m.group(1)}](../doc/captures/{m.group(2)})',
+        r'!\[(.*?)\]\((?:\.\.\/)?(?:doc\/)?captures/(.*?)\)',
+        lambda m: f'![{m.group(1)}](captures/{m.group(2)})',
         content
     )
     return content
@@ -261,9 +262,40 @@ def page_documentation(lang):
     
     readme_content = load_readme(lang)
     if readme_content:
-        # Process image paths if needed
+        # Process markdown and images for Streamlit compatibility
         readme_content = process_markdown_images(readme_content)
-        st.markdown(readme_content)
+        
+        # Split content by images and render
+        import re
+        
+        # Pattern to find markdown images
+        pattern = r'!\[(.*?)\]\((captures/[^\)]+)\)'
+        parts = re.split(pattern, readme_content)
+        
+        # Render parts alternately (text, alt_text, image_path, text, alt_text, image_path, ...)
+        i = 0
+        while i < len(parts):
+            if i % 3 == 0:
+                # Text part
+                if parts[i].strip():
+                    st.markdown(parts[i])
+            else:
+                # Image part (alt_text is at i, path is at i+1)
+                if i + 1 < len(parts):
+                    alt_text = parts[i]
+                    image_path = parts[i + 1]
+                    
+                    # Try to load and display the image
+                    try:
+                        full_path = Path(__file__).parent / image_path
+                        if full_path.exists():
+                            st.image(str(full_path), caption=alt_text, use_column_width=True)
+                        else:
+                            st.warning(f"Image not found: {image_path}")
+                    except Exception as e:
+                        st.warning(f"Could not load image {image_path}: {str(e)}")
+                i += 1
+            i += 1
     else:
         st.error(t("readme_error"))
         st.info(f"README_{lang}.md should be located in: `my-streamlit-app/README_{lang}.md`")
