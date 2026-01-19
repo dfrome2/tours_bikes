@@ -17,9 +17,9 @@ Sample to visualize the influence of temperature variation between 15°C and 22�
 ![Temperature/Bike Traffic Correlation](captures/visual_temperature.png)
 
 ### 2. Impact of rain
-Precipitation significantly reduces bike traffic. in Power BI, A DAX measure was created to amplify the visibility of low precipitation (0 → 0.001 mm/h).
+Precipitation significantly reduces bike traffic. in Power BI, A DAX measure was created to amplify the visibility of low precipitation (initially in m/h).
 
-![Rain vs. Daily bike traffic](captures/visual_pluie.png)
+![Rain in blue vs. Daily bike traffic in purple](captures/visual_pluie.png)
 
 ### 3. Interactive visualization
 Power BI dashboard allowing filtering by counter, date, and weather conditions, with maps and site photos.
@@ -59,10 +59,6 @@ Github project: [tours_bikes](https://github.com/dfrome2/tours_bikes)
 
 
 ---
-
-## Try It Yourself!
-- **Power BI File**: .pbit available in the repository. (.pbix file available upon request via email).
-- **Python Code**: Available in the repository.
 
 ## Contact
 Value Discovery – [contact@valuediscovery.fr](mailto:contact@valuediscovery.fr) | Consulting and training.
