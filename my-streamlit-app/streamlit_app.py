@@ -16,6 +16,7 @@ import numpy as np
 from pathlib import Path
 from predictor import BikeCountPredictor
 import re
+import locale
 
 # Page configuration
 st.set_page_config(
@@ -244,6 +245,16 @@ def get_text(key, lang):
     return TRANSLATIONS[lang].get(key, key)
 
 
+def format_number(value, lang):
+    """Format number according to language convention."""
+    if lang == "fr":
+        # French format: space as thousand separator
+        return f"{int(value):,}".replace(",", " ")
+    else:
+        # English format: comma as thousand separator
+        return f"{int(value):,}"
+
+
 def page_documentation(lang):
     """Documentation page with README and images."""
     t = lambda key: get_text(key, lang)
@@ -426,7 +437,7 @@ def page_prediction(lang):
                 with col1:
                     st.metric(
                         label=t("predicted"),
-                        value=f"{prediction:,}",
+                        value=format_number(prediction, lang),
                     )
 
                 with col2:
@@ -530,18 +541,6 @@ def main():
         st.title(get_text("title", st.session_state.lang))
         st.markdown("---")
         
-        # Language selection with flags
-        st.markdown("**" + get_text("language", st.session_state.lang) + "**")
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Francais", use_container_width=True, key="lang_fr"):
-                st.session_state.lang = "fr"
-        with col2:
-            if st.button("English", use_container_width=True, key="lang_en"):
-                st.session_state.lang = "en"
-        
-        st.markdown("---")
-        
         # Page navigation
         st.markdown("**Pages**")
         col1, col2 = st.columns(2)
@@ -566,6 +565,23 @@ def main():
         
         st.markdown("---")
         st.caption(get_text("footer", st.session_state.lang))
+
+    # ==================== TOP RIGHT LANGUAGE SELECTION ====================
+    lang = st.session_state.lang
+    t = lambda key: get_text(key, lang)
+    
+    # Add language selection in top right
+    col_lang1, col_lang2, col_lang3 = st.columns([4, 0.5, 0.5])
+    with col_lang3:
+        if st.button("🇬🇧", key="lang_en_btn", help="English"):
+            st.session_state.lang = "en"
+    with col_lang2:
+        if st.button("🇫🇷", key="lang_fr_btn", help="Français"):
+            st.session_state.lang = "fr"
+    
+    # Refresh lang and t after potential language change
+    lang = st.session_state.lang
+    t = lambda key: get_text(key, lang)
 
     # ==================== MAIN CONTENT ====================
     if st.session_state.page == "doc":
