@@ -605,10 +605,10 @@ def main():
     # Add language selection in top right
     col_lang1, col_lang2, col_lang3 = st.columns([4, 0.5, 0.5])
     with col_lang3:
-        st.button("![EN](https://flagcdn.com/w20/gb.png)", key="lang_en_btn", help="English"):
+        if st.button("![EN](https://flagcdn.com/w20/gb.png)", key="lang_en_btn", help="English"):
             st.session_state.lang = "en"
     with col_lang2:
-        st.button("![FR](https://flagcdn.com/w20/fr.png)", key="lang_fr_btn", help="Français"):
+        if st.button("![FR](https://flagcdn.com/w20/fr.png)", key="lang_fr_btn", help="Français"):
             st.session_state.lang = "fr"
     
     # Refresh lang and t after potential language change
