@@ -1,4 +1,4 @@
-# Bike traffic analysis in Tours: Power BI visualizations & data science predictions
+# Bike traffic in Tours: Power BI visualizations & data science predictions
 
 ---
 

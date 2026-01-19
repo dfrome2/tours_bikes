@@ -5,10 +5,6 @@
 [![Data Science](https://img.shields.io/badge/Data_Science-0078D4?style=for-the-badge&logo=python&logoColor=white)]
 
 ---
-**English version below.**
-
----
----
 
 ## Pourquoi ce projet ?
 **Comment la météo influence-t-elle les déplacements à vélo à Tours ?**
