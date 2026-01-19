@@ -21,9 +21,9 @@ Echantillon pour visualiser l'influence de la variation de température 15°C et
 ![Corrélation température/passages quotidiens](captures/visual_temperature.png)
 
 ### 2. Impact de la pluie
-Les précipitations réduisent significativement la fréquentation. Une mesure DAX a été créée pour amplifier la visibilité des faibles précipitations (0 → 0.001 mm/h).
+Les précipitations réduisent significativement la fréquentation. Une mesure DAX a été créée pour amplifier la visibilité des faibles précipitations (initialement en m/h).
 
-![Pluie vs. passages quotidiens](captures/visual_pluie.png)
+![Pluie en bleu vs. passages quotidiens vélos en mauve](captures/visual_pluie.png)
 
 ### 3. Visualisation interactive
 Tableau de bord Power BI permettant de filtrer par compteur, date et conditions météo, avec intégration de cartes et photos des sites.
