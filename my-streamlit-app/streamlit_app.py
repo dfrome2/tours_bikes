@@ -206,13 +206,13 @@ def load_predictor():
 
 
 @st.cache_data
-def load_readme():
-    """Load and process README content."""
-    # Try multiple possible paths
+def load_readme(lang):
+    """Load and process README content based on language."""
+    # Try to load README_fr.md or README_en.md from my-streamlit-app directory
+    filename = f"README_{lang}.md"
     possible_paths = [
-        Path(__file__).parent.parent / "doc" / "README.md",
-        Path(__file__).parent / ".." / "doc" / "README.md",
-        Path(__file__).resolve().parent.parent / "doc" / "README.md",
+        Path(__file__).parent / filename,
+        Path(__file__).resolve().parent / filename,
     ]
     
     for readme_path in possible_paths:
@@ -259,14 +259,14 @@ def page_documentation(lang):
     """Documentation page with README and images."""
     t = lambda key: get_text(key, lang)
     
-    readme_content = load_readme()
+    readme_content = load_readme(lang)
     if readme_content:
-        # Process image paths
+        # Process image paths if needed
         readme_content = process_markdown_images(readme_content)
         st.markdown(readme_content)
     else:
         st.error(t("readme_error"))
-        st.info("README.md should be located in: `../doc/README.md`")
+        st.info(f"README_{lang}.md should be located in: `my-streamlit-app/README_{lang}.md`")
 
 
 def page_prediction(lang):
