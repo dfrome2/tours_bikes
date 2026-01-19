@@ -79,7 +79,7 @@ Tableau de bord Power BI permettant de filtrer par compteur, date et conditions 
 ---
 
 ## Contact
-Value Discovery – [contact@valuediscovery.fr](mailto:contact@valuediscovery.fr) | [LinkedIn](#)
+Value Discovery – [contact@valuediscovery.fr](mailto:contact@valuediscovery.fr) | Conseil informatique et enseignement.
 
 ---
 
@@ -153,7 +153,7 @@ Power BI dashboard allowing filtering by counter, date, and weather conditions, 
 - **Python Code**: Available in the repository.
 
 ## Contact
-Value Discovery – [contact@valuediscovery.fr](mailto:contact@valuediscovery.fr) | [LinkedIn](#)
+Value Discovery – [contact@valuediscovery.fr](mailto:contact@valuediscovery.fr) | Consulting and training.
 
 
 **Licence** : MIT – Libre réutilisation et adaptation.
