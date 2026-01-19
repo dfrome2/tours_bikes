@@ -18,7 +18,7 @@ import re
 
 # Page configuration
 st.set_page_config(
-    page_title="🚴 Tours Bike Predictor",
+    page_title="Tours Bike Predictor",
     page_icon="🚴",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -45,147 +45,153 @@ st.markdown(
 TRANSLATIONS = {
     "fr": {
         # Pages
-        "page_doc": "📖 Documentation",
-        "page_pred": "🔮 Prédiction",
-        "language": "🌐 Langue",
+        "page_doc": "Documentation",
+        "page_pred": "Prediction",
+        "language": "Langue",
         "title": "Tours Bike Predictor",
         
         # Prediction page
-        "pred_title": "Prédiction de Comptage de Vélos",
-        "pred_subtitle": "Prédisez la fréquentation des pistes cyclables de Tours",
-        "single_pred": "📊 Prédiction Unique",
-        "batch_pred": "📈 Prédictions en Batch",
+        "pred_title": "Prediction de comptage de velos",
+        "pred_subtitle": "Predisez la frequentation des pistes cyclables de Tours",
+        "single_pred": "Single prediction",
+        "batch_pred": "Batch predictions",
         
         # Sections
-        "temp_section": "🌡️ Température (°C)",
-        "precip_section": "💧 Précipitations & Neige (m)",
-        "wind_section": "💨 Vent & Chutes de Neige",
-        "day_section": "📅 Type de Jour",
+        "temp_section": "Temperature (°C)",
+        "precip_wind_section": "Precipitation & Wind",
+        "snowfall_depth_section": "Snowfall & Snow depth",
+        "day_section": "Day type",
         
         # Temperature fields
-        "temp_min": "Température Minimale",
-        "temp_min_desc": "Température minimale attendue pour la journée (-40 à 50°C)",
-        "temp_max": "Température Maximale",
-        "temp_max_desc": "Température maximale attendue pour la journée (-40 à 50°C)",
+        "temp_min": "Minimum temperature",
+        "temp_min_desc": "Temperature minimale attendue pour la journee (-40 a 50°C)",
+        "temp_max": "Maximum temperature",
+        "temp_max_desc": "Temperature maximale attendue pour la journee (-40 a 50°C)",
         
-        # Precipitation fields
-        "precip": "Précipitations Totales",
-        "precip_desc": "Quantité totale d'eau tombée (0 à 0.5m)",
-        "snow_depth": "Profondeur de Neige",
-        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 à 5m)",
+        # Precipitation & Wind fields
+        "precip": "Total precipitation",
+        "precip_desc": "Quantite totale d'eau tombee (0 a 0.5m)",
+        "wind_gust": "Max wind gusts",
+        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 a 50 m/s)",
         
-        # Wind fields
-        "wind_gust": "Rafales de Vent Max",
-        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 à 50 m/s)",
-        "snow_fall": "Chutes de Neige Max",
-        "snow_fall_desc": "Quantité maximale de neige tombée (0 à 5m)",
+        # Snowfall & Snow depth fields
+        "snow_fall": "Max snowfall",
+        "snow_fall_desc": "Quantite maximale de neige tombee (0 a 5m)",
+        "snow_depth": "Snow depth",
+        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 a 5m)",
         
         # Day type fields
-        "weekend": "🏖️ Weekend",
+        "weekend": "Weekend",
         "weekend_desc": "C'est un jour de weekend (samedi ou dimanche)",
-        "holiday": "🎉 Jour Férié",
-        "holiday_desc": "C'est un jour férié officiel",
-        "vacation": "📚 Vacances Scolaires",
-        "vacation_desc": "C'est une période de vacances scolaires",
+        "holiday": "Holiday",
+        "holiday_desc": "C'est un jour ferie officiel",
+        "vacation": "School vacation",
+        "vacation_desc": "C'est une periode de vacances scolaires",
         
         # Buttons and messages
-        "predict_btn": "🔮 Prédire",
-        "success": "✅ Prédiction réussie!",
-        "predicted": "Nombre de Vélos Prédits",
-        "error": "❌ Erreur lors de la prédiction:",
-        "input_summary": "📋 Résumé des Paramètres",
+        "predict_btn": "Predict",
+        "success": "Prediction reussie!",
+        "predicted": "Nombre de velos predits",
+        "error": "Erreur lors de la prediction:",
+        "input_summary": "Resume des parametres",
         
         # Batch prediction
-        "batch_title": "Prédictions par Lots",
-        "csv_upload": "Téléchargez un fichier CSV",
+        "batch_title": "Predictions par lots",
+        "csv_upload": "Telechargez un fichier CSV",
         "csv_help": "Le CSV doit contenir: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
-        "loaded_rows": "📊 Lignes chargées",
-        "missing_columns": "❌ Colonnes manquantes:",
-        "csv_error": "❌ Erreur lors de la lecture:",
-        "download_btn": "📥 Télécharger les prédictions (CSV)",
+        "loaded_rows": "Lignes chargees",
+        "missing_columns": "Colonnes manquantes:",
+        "csv_error": "Erreur lors de la lecture:",
+        "download_btn": "Telecharger les predictions (CSV)",
         
         # Display helpers
-        "temp_range": "Température:",
-        "to": "à",
-        "precip_short": "Précip:",
+        "temp_range": "Temperature:",
+        "to": "a",
+        "precip_short": "Precip:",
         "wind_short": "Vent:",
-        "yes": "✓ Oui",
-        "no": "✗ Non",
+        "yes": "Oui",
+        "no": "Non",
         
         # Footer
-        "footer": "🔧 Construit avec Streamlit | 🚴 Tours Bike Counting | Données: Copernicus & Syndicat des Mobilités",
+        "footer": "Construit avec Streamlit | Tours Bike Counting | Donnees: Copernicus & Syndicat des Mobilites",
+        
+        # Readme status
+        "readme_error": "Erreur lors du chargement du README",
     },
     "en": {
         # Pages
-        "page_doc": "📖 Documentation",
-        "page_pred": "🔮 Prediction",
-        "language": "🌐 Language",
+        "page_doc": "Documentation",
+        "page_pred": "Prediction",
+        "language": "Language",
         "title": "Tours Bike Predictor",
         
         # Prediction page
-        "pred_title": "Bike Count Prediction",
+        "pred_title": "Bike count prediction",
         "pred_subtitle": "Predict bike traffic on Tours cycling lanes",
-        "single_pred": "📊 Single Prediction",
-        "batch_pred": "📈 Batch Predictions",
+        "single_pred": "Single prediction",
+        "batch_pred": "Batch predictions",
         
         # Sections
-        "temp_section": "🌡️ Temperature (°C)",
-        "precip_section": "💧 Precipitation & Snow (m)",
-        "wind_section": "💨 Wind & Snowfall",
-        "day_section": "📅 Day Type",
+        "temp_section": "Temperature (°C)",
+        "precip_wind_section": "Precipitation & Wind",
+        "snowfall_depth_section": "Snowfall & Snow depth",
+        "day_section": "Day type",
         
         # Temperature fields
-        "temp_min": "Minimum Temperature",
+        "temp_min": "Minimum temperature",
         "temp_min_desc": "Minimum temperature expected for the day (-40 to 50°C)",
-        "temp_max": "Maximum Temperature",
+        "temp_max": "Maximum temperature",
         "temp_max_desc": "Maximum temperature expected for the day (-40 to 50°C)",
         
-        # Precipitation fields
-        "precip": "Total Precipitation",
+        # Precipitation & Wind fields
+        "precip": "Total precipitation",
         "precip_desc": "Total amount of water fallen (0 to 0.5m)",
-        "snow_depth": "Snow Depth",
+        "wind_gust": "Max wind gusts",
+        "wind_gust_desc": "Maximum wind gust speed (0 to 50 m/s)",
+        
+        # Snowfall & Snow depth fields
+        "snow_fall": "Max snowfall",
+        "snow_fall_desc": "Maximum amount of snow fallen (0 to 5m)",
+        "snow_depth": "Snow depth",
         "snow_depth_desc": "Average height of snow on ground (0 to 5m)",
         
-        # Wind fields
-        "wind_gust": "Max Wind Gusts",
-        "wind_gust_desc": "Maximum wind gust speed (0 to 50 m/s)",
-        "snow_fall": "Max Snowfall",
-        "snow_fall_desc": "Maximum amount of snow fallen (0 to 5m)",
-        
         # Day type fields
-        "weekend": "🏖️ Weekend",
+        "weekend": "Weekend",
         "weekend_desc": "Is it a weekend day (Saturday or Sunday)",
-        "holiday": "🎉 Holiday",
+        "holiday": "Holiday",
         "holiday_desc": "Is it a public holiday",
-        "vacation": "📚 School Vacation",
+        "vacation": "School vacation",
         "vacation_desc": "Is it a school vacation period",
         
         # Buttons and messages
-        "predict_btn": "🔮 Predict",
-        "success": "✅ Prediction successful!",
-        "predicted": "Predicted Bike Count",
-        "error": "❌ Error during prediction:",
-        "input_summary": "📋 Parameter Summary",
+        "predict_btn": "Predict",
+        "success": "Prediction successful!",
+        "predicted": "Predicted bike count",
+        "error": "Error during prediction:",
+        "input_summary": "Parameter summary",
         
         # Batch prediction
-        "batch_title": "Batch Predictions",
+        "batch_title": "Batch predictions",
         "csv_upload": "Upload a CSV file",
         "csv_help": "CSV must contain: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
-        "loaded_rows": "📊 Rows loaded",
-        "missing_columns": "❌ Missing columns:",
-        "csv_error": "❌ Error reading file:",
-        "download_btn": "📥 Download predictions (CSV)",
+        "loaded_rows": "Rows loaded",
+        "missing_columns": "Missing columns:",
+        "csv_error": "Error reading file:",
+        "download_btn": "Download predictions (CSV)",
         
         # Display helpers
         "temp_range": "Temperature:",
         "to": "to",
         "precip_short": "Precip:",
         "wind_short": "Wind:",
-        "yes": "✓ Yes",
-        "no": "✗ No",
+        "yes": "Yes",
+        "no": "No",
         
         # Footer
-        "footer": "🔧 Built with Streamlit | 🚴 Tours Bike Counting | Data: Copernicus & Syndicat des Mobilités",
+        "footer": "Built with Streamlit | Tours Bike Counting | Data: Copernicus & Syndicat des Mobilites",
+        
+        # Readme status
+        "readme_error": "Error loading README",
     },
 }
 
@@ -200,14 +206,22 @@ def load_predictor():
 @st.cache_data
 def load_readme():
     """Load and process README content."""
-    readme_path = Path(__file__).parent.parent / "doc" / "README.md"
-    if readme_path.exists():
-        try:
-            with open(readme_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            return content
-        except Exception as e:
-            return f"Error loading README: {str(e)}"
+    # Try multiple possible paths
+    possible_paths = [
+        Path(__file__).parent.parent / "doc" / "README.md",
+        Path(__file__).parent / ".." / "doc" / "README.md",
+        Path(__file__).resolve().parent.parent / "doc" / "README.md",
+    ]
+    
+    for readme_path in possible_paths:
+        if readme_path.exists():
+            try:
+                with open(readme_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                return content
+            except Exception as e:
+                continue
+    
     return None
 
 
@@ -239,14 +253,15 @@ def page_documentation(lang):
         readme_content = process_markdown_images(readme_content)
         st.markdown(readme_content)
     else:
-        st.warning("README not found")
+        st.error(t("readme_error"))
+        st.info("README.md should be located in: `../doc/README.md`")
 
 
 def page_prediction(lang):
     """Prediction page with single and batch predictions."""
     t = lambda key: get_text(key, lang)
     
-    st.title(f"🚴 {t('pred_title')}")
+    st.title(t("pred_title"))
     st.markdown(t("pred_subtitle"))
     
     # Create tabs for single and batch
@@ -254,9 +269,9 @@ def page_prediction(lang):
     
     # ==================== SINGLE PREDICTION ====================
     with tab_single:
-        st.subheader("📊 " + t("single_pred"))
+        st.subheader(t("single_pred"))
 
-        # Temperature section
+        # ========== Line 1: Temperature ==========
         st.markdown(f"### {t('temp_section')}")
         col1, col2 = st.columns(2)
         
@@ -270,6 +285,7 @@ def page_prediction(lang):
                 max_value=50.0,
                 step=0.5,
                 label_visibility="collapsed",
+                key="temp_min_input"
             )
         
         with col2:
@@ -282,12 +298,13 @@ def page_prediction(lang):
                 max_value=50.0,
                 step=0.5,
                 label_visibility="collapsed",
+                key="temp_max_input"
             )
 
         st.divider()
 
-        # Precipitation & Snow section
-        st.markdown(f"### {t('precip_section')}")
+        # ========== Line 2: Precipitation & Wind ==========
+        st.markdown(f"### {t('precip_wind_section')}")
         col1, col2 = st.columns(2)
         
         with col1:
@@ -300,6 +317,39 @@ def page_prediction(lang):
                 max_value=0.5,
                 step=0.001,
                 label_visibility="collapsed",
+                key="precip_input"
+            )
+        
+        with col2:
+            st.markdown(f"**{t('wind_gust')}**")
+            st.caption(t('wind_gust_desc'))
+            i10fg_max = st.number_input(
+                t("wind_gust"),
+                value=5.0,
+                min_value=0.0,
+                max_value=50.0,
+                step=0.5,
+                label_visibility="collapsed",
+                key="wind_input"
+            )
+
+        st.divider()
+
+        # ========== Line 3: Snowfall & Snow depth ==========
+        st.markdown(f"### {t('snowfall_depth_section')}")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown(f"**{t('snow_fall')}**")
+            st.caption(t('snow_fall_desc'))
+            sf_max = st.number_input(
+                t("snow_fall"),
+                value=0.0,
+                min_value=0.0,
+                max_value=5.0,
+                step=0.01,
+                label_visibility="collapsed",
+                key="snowfall_input"
             )
         
         with col2:
@@ -312,41 +362,12 @@ def page_prediction(lang):
                 max_value=5.0,
                 step=0.01,
                 label_visibility="collapsed",
+                key="snowdepth_input"
             )
 
         st.divider()
 
-        # Wind & Snowfall section
-        st.markdown(f"### {t('wind_section')}")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown(f"**{t('wind_gust')}**")
-            st.caption(t('wind_gust_desc'))
-            i10fg_max = st.number_input(
-                t("wind_gust"),
-                value=5.0,
-                min_value=0.0,
-                max_value=50.0,
-                step=0.5,
-                label_visibility="collapsed",
-            )
-        
-        with col2:
-            st.markdown(f"**{t('snow_fall')}**")
-            st.caption(t('snow_fall_desc'))
-            sf_max = st.number_input(
-                t("snow_fall"),
-                value=0.0,
-                min_value=0.0,
-                max_value=5.0,
-                step=0.01,
-                label_visibility="collapsed",
-            )
-
-        st.divider()
-
-        # Day type section
+        # ========== Line 4: Day type ==========
         st.markdown(f"### {t('day_section')}")
         col1, col2, col3 = st.columns(3)
         
@@ -435,7 +456,7 @@ def page_prediction(lang):
 
     # ==================== BATCH PREDICTION ====================
     with tab_batch:
-        st.subheader("📈 " + t("batch_title"))
+        st.subheader(t("batch_title"))
 
         uploaded_file = st.file_uploader(
             t("csv_upload"),
@@ -505,23 +526,23 @@ def main():
 
     # ==================== SIDEBAR NAVIGATION ====================
     with st.sidebar:
-        st.title(f"🚴 {get_text('title', st.session_state.lang)}")
+        st.title(get_text("title", st.session_state.lang))
         st.markdown("---")
         
         # Language selection with flags
         st.markdown("**" + get_text("language", st.session_state.lang) + "**")
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("🇫🇷 Français", use_container_width=True, key="lang_fr"):
+            if st.button("Francais", use_container_width=True, key="lang_fr"):
                 st.session_state.lang = "fr"
         with col2:
-            if st.button("🇬🇧 English", use_container_width=True, key="lang_en"):
+            if st.button("English", use_container_width=True, key="lang_en"):
                 st.session_state.lang = "en"
         
         st.markdown("---")
         
         # Page navigation
-        st.markdown("**📑 Pages**")
+        st.markdown("**Pages**")
         col1, col2 = st.columns(2)
         
         with col1:
