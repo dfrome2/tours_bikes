@@ -46,74 +46,74 @@ TRANSLATIONS = {
     "fr": {
         # Pages
         "page_doc": "Documentation",
-        "page_pred": "Prediction",
+        "page_pred": "Prédiction",
         "language": "Langue",
         "title": "Tours Bike Predictor",
         
         # Prediction page
-        "pred_title": "Prediction de comptage de velos",
-        "pred_subtitle": "Predisez la frequentation des pistes cyclables de Tours",
-        "single_pred": "Single prediction",
-        "batch_pred": "Batch predictions",
+        "pred_title": "Prédiction de comptage de vélos",
+        "pred_subtitle": "Prédisez la fréquentation des pistes cyclables de Tours",
+        "single_pred": "Prédiction simple",
+        "batch_pred": "Prédictions par lots",
         
         # Sections
-        "temp_section": "Temperature (°C)",
-        "precip_wind_section": "Precipitation & Wind",
-        "snowfall_depth_section": "Snowfall & Snow depth",
-        "day_section": "Day type",
+        "temp_section": "Température (°C)",
+        "precip_wind_section": "Précipitation et vent",
+        "snowfall_depth_section": "Neige et profondeur",
+        "day_section": "Type de jour",
         
         # Temperature fields
-        "temp_min": "Minimum temperature",
-        "temp_min_desc": "Temperature minimale attendue pour la journee (-40 a 50°C)",
-        "temp_max": "Maximum temperature",
-        "temp_max_desc": "Temperature maximale attendue pour la journee (-40 a 50°C)",
+        "temp_min": "Température minimale",
+        "temp_min_desc": "Température minimale attendue pour la journée (-40 à 50°C)",
+        "temp_max": "Température maximale",
+        "temp_max_desc": "Température maximale attendue pour la journée (-40 à 50°C)",
         
         # Precipitation & Wind fields
-        "precip": "Total precipitation",
-        "precip_desc": "Quantite totale d'eau tombee (0 a 0.5m)",
-        "wind_gust": "Max wind gusts",
-        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 a 50 m/s)",
+        "precip": "Précipitation totale",
+        "precip_desc": "Quantité totale d'eau tombée (0 à 0.5m)",
+        "wind_gust": "Rafales de vent max",
+        "wind_gust_desc": "Vitesse maximale des rafales de vent (0 à 50 m/s)",
         
         # Snowfall & Snow depth fields
-        "snow_fall": "Max snowfall",
-        "snow_fall_desc": "Quantite maximale de neige tombee (0 a 5m)",
-        "snow_depth": "Snow depth",
-        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 a 5m)",
+        "snow_fall": "Chutes de neige max",
+        "snow_fall_desc": "Quantité maximale de neige tombée (0 à 5m)",
+        "snow_depth": "Profondeur de neige",
+        "snow_depth_desc": "Hauteur moyenne de neige sur le sol (0 à 5m)",
         
         # Day type fields
         "weekend": "Weekend",
         "weekend_desc": "C'est un jour de weekend (samedi ou dimanche)",
-        "holiday": "Holiday",
-        "holiday_desc": "C'est un jour ferie officiel",
-        "vacation": "School vacation",
-        "vacation_desc": "C'est une periode de vacances scolaires",
+        "holiday": "Jour férié",
+        "holiday_desc": "C'est un jour férié officiel",
+        "vacation": "Vacances scolaires",
+        "vacation_desc": "C'est une période de vacances scolaires",
         
         # Buttons and messages
-        "predict_btn": "Predict",
-        "success": "Prediction reussie!",
-        "predicted": "Nombre de velos predits",
-        "error": "Erreur lors de la prediction:",
-        "input_summary": "Resume des parametres",
+        "predict_btn": "Prédire",
+        "success": "Prédiction réussie!",
+        "predicted": "Nombre de vélos prédits",
+        "error": "Erreur lors de la prédiction:",
+        "input_summary": "Résumé des paramètres",
         
         # Batch prediction
-        "batch_title": "Predictions par lots",
-        "csv_upload": "Telechargez un fichier CSV",
+        "batch_title": "Prédictions par lots",
+        "csv_upload": "Téléchargez un fichier CSV",
         "csv_help": "Le CSV doit contenir: t2m_min, t2m_max, tp_total, sd_total, i10fg_max, sf_max, is_weekend, is_holiday, is_school_vacation",
-        "loaded_rows": "Lignes chargees",
+        "loaded_rows": "Lignes chargées",
         "missing_columns": "Colonnes manquantes:",
         "csv_error": "Erreur lors de la lecture:",
-        "download_btn": "Telecharger les predictions (CSV)",
+        "download_btn": "Télécharger les prédictions (CSV)",
         
         # Display helpers
-        "temp_range": "Temperature:",
-        "to": "a",
-        "precip_short": "Precip:",
+        "temp_range": "Température:",
+        "to": "à",
+        "precip_short": "Précip:",
         "wind_short": "Vent:",
         "yes": "Oui",
         "no": "Non",
         
         # Footer
-        "footer": "Construit avec Streamlit | Tours Bike Counting | Donnees: Copernicus & Syndicat des Mobilites",
+        "footer": "Construit avec Streamlit | Tours Bike Counting | Données: Copernicus et Syndicat des Mobilités",
         
         # Readme status
         "readme_error": "Erreur lors du chargement du README",
@@ -549,7 +549,7 @@ def main():
             if st.button(
                 get_text("page_doc", st.session_state.lang),
                 use_container_width=True,
-                type="secondary" if st.session_state.page == "doc" else "primary",
+                type="primary",
                 key="btn_doc"
             ):
                 st.session_state.page = "doc"
@@ -558,7 +558,7 @@ def main():
             if st.button(
                 get_text("page_pred", st.session_state.lang),
                 use_container_width=True,
-                type="secondary" if st.session_state.page == "pred" else "primary",
+                type="primary",
                 key="btn_pred"
             ):
                 st.session_state.page = "pred"
